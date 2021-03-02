@@ -17,7 +17,7 @@ class MealListController : UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(NavigateToSaved))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(NavigateToSaved))
         
         theMeal.getMealList() { meals in
             DispatchQueue.main.async {
