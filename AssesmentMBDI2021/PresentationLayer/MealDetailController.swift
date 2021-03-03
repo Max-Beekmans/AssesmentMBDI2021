@@ -31,7 +31,11 @@ class MealDetailController : UIViewController {
     }
     
     @IBAction func SaveMeal(_ sender: Any) {
-        let meal = detail!
+        guard let meal = detail else {
+            print("what? how did you get to this view?")
+            return
+        }
+        
         UserDefaults().set(meal.mealId, forKey: "nl.avans.fml.savedmeal")
         
         let alert = UIAlertController(
