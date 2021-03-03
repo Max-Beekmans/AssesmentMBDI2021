@@ -43,18 +43,47 @@ class MealListController : UITableViewController {
         
         return cell
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+        if let ident = identifier {
+            if ident == "showDetail" {
+                guard let indexPath = self.tableView.indexPathForSelectedRow else {
+                    // I use this segue programatically to travel to a saved meal.
+                    // If the mealId is not null at this point we do want to continue
+                    if (tempMealId != "") {
+                        return true
+                    }
+                    
+                    let alert = UIAlertController(
+                        title: "ForMyMeal",
+                        message: "kan uw voorkeursmaaltijd niet vinden.",
+                        preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "ok", style: .default))
+                    
+                    return false
+                }
+                
+                tempMealId = mealList[indexPath.row].mealId
+            }
+        }
+        return true
+    }
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailController = segue.destination as? MealDetailController {
-            if (self.tableView.indexPathForSelectedRow != nil) {
-                let clickedMeal = mealList[self.tableView.indexPathForSelectedRow!.row]
-                tempMealId = clickedMeal.mealId
-            }
-            
             if (tempMealId == "") {
-                return
+                guard let indexPath = self.tableView.indexPathForSelectedRow else {
+                    print("bruh, what did you do?")
+                    return
+                }
+                
+                if (self.tableView.indexPathForSelectedRow != nil) {
+                    let clickedMeal = mealList[indexPath.row]
+                    tempMealId = clickedMeal.mealId
+                }
             }
-            
+                                    
             theMeal.getMealDetail(id: tempMealId) { mealDetail in
                 DispatchQueue.main.async {
                     if let meal = mealDetail {
@@ -66,21 +95,22 @@ class MealListController : UITableViewController {
     }
     
     @objc func NavigateToSaved() {
-        let mealId = UserDefaults.standard.string(forKey: "nl.avans.fml.savedmeal")
-        
-        if (mealId != nil) {
-            tempMealId = mealId!
-            performSegue(withIdentifier: "showDetail", sender: nil)
+        guard let mealId = UserDefaults.standard.string(forKey: "nl.avans.fml.savedmeal") else {
+            print("dafuq?")
+            
+            let alert = UIAlertController(
+                title: "ForMyMeal",
+                message: "kan uw voorkeursmaaltijd niet vinden.",
+                preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "ok", style: .default))
+            
+            self.present(alert, animated: true)
+            
             return
         }
         
-        let alert = UIAlertController(
-            title: "ForMyMeal",
-            message: "kan uw voorkeursmaaltijd niet vinden.",
-            preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "ok", style: .default))
-        
-        self.present(alert, animated: true)
+        tempMealId = mealId
+        performSegue(withIdentifier: "showDetail", sender: nil)
     }
 }
