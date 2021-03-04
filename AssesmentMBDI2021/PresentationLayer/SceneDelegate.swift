@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  AssesmentMBDI2021
 //
-//  Created by user192266 on 2/25/21.
+//  Created by Max Beekmans on 2/25/21.
 //
 
 import UIKit

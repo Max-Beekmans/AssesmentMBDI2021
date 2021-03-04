@@ -2,7 +2,7 @@
 //  MealDetail.swift
 //  AssesmentMBDI2021
 //
-//  Created by user192266 on 3/2/21.
+//  Created by Max Beekmans on 3/2/21.
 //
 
 import Foundation

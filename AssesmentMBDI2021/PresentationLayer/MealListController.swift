@@ -15,8 +15,8 @@ class MealListController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
+        // button item in navigation bar for going to saved meal
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(NavigateToSaved))
         
         theMeal.getMealList() { meals in

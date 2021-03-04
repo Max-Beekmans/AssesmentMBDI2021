@@ -2,13 +2,13 @@
 //  TheMeal.swift
 //  AssesmentMBDI2021
 //
-//  Created by user192266 on 2/25/21.
+//  Created by Max Beekmans on 2/25/21.
 //
 
 import Foundation
 
 class TheMeal {
-  
+    // Get list of ingredients available in the API
     func getIngredientList(completion: @escaping(([Ingredient]?) -> ())) {
         let apiUrl = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
         
@@ -45,6 +45,7 @@ class TheMeal {
         }
     }
     
+    // Get list of meals with chicken_breast as ingredient
     func getMealList(completion: @escaping(([Meal]?) -> ())) {
         let apiUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast"
         
@@ -81,6 +82,7 @@ class TheMeal {
         }
     }
     
+    //Get specific meal information
     func getMealDetail(id: String, completion: @escaping((MealDetail?) -> ())) {
         let apiUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(id)"
         
